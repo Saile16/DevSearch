@@ -1,5 +1,7 @@
+from multiprocessing import context
 from django.shortcuts import render
 from .models import Project,Review,Tag
+from .forms import ProjectForm
 # Create your views here.
 
 def projects(request):
@@ -19,3 +21,12 @@ def project(request,pk):
         
     }
     return render(request, 'projects/single-project.html',context)
+
+
+
+def createProject(request):
+    form = ProjectForm()
+    context={
+        'form':form
+    }
+    return render(request, 'projects/project_form.html',context)
