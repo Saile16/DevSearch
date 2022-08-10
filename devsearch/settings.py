@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'projects',
+    'users'    
     # #cualquiera de estas 2 maneras se puede usar
+    # 'users.apps.UsersConfig',
     # 'projects.apps.ProjectsConfig',
 ]
 
