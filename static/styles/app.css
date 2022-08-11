@@ -639,11 +639,12 @@ img {
 ========================*/
 
 .auth {
+  margin-top: 100px;
   width: 100%;
   position: relative;
   z-index: 1;
   background: transparent;
-  height: 99vh;
+  /* height: 99vh; */
   display: flex;
   justify-content: center;
   align-items: center;
