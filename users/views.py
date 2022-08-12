@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Profile
 from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -87,3 +88,18 @@ def userProfile(request,pk):
         'otherSkills':otherSkills
     }
     return render(request, 'users/user-profile.html',context)
+
+@login_required(login_url='login')
+def userAccount(request):
+    #primero obtenemos el user logeado y lo guardamos en una variable
+    profile=request.user.profile
+    #filtramos y obtenemos tambien aqui los skills
+    skills=profile.skill_set.all()
+    projects=profile.project_set.all()
+    context={
+        'profile':profile,
+        'skills':skills,
+        'projects':projects
+        
+    }
+    return render(request, 'users/account.html',context)
