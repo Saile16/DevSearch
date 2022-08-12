@@ -35,10 +35,22 @@ def createProfile(sender,instance,created,**kwargs):
             name=user.first_name,
         )
 
+def updateUser(sender,instance,created,**kwargs):
+    profile=instance
+    user=profile.user
+
+    if created == False:
+        user.first_name=profile.name
+        user.username=profile.username
+        user.email=profile.email
+        user.save()
+
+#de sta manera eliminamos el User ligador al profile
 def deleteProfile(sender,instance,**kwargs):
     print('Profile deleted signal triggered')
     user=instance.user
     user.delete()
 
 post_save.connect(createProfile,sender=User)
+post_save.connect(updateUser,sender=Profile)
 post_delete.connect(deleteProfile,sender=Profile)
