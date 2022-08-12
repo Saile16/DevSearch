@@ -25,12 +25,17 @@ def project(request,pk):
 
 @login_required(login_url='login')
 def createProject(request):
+    #obtenemos el usuario logueado
+    profile=request.user.profile
     form = ProjectForm()
     if request.method=='POST':
         # print(ProjectForm(request.POST))
         form=ProjectForm(request.POST,request.FILES)
         if form.is_valid():
-            form.save()
+            project=form.save(commit=False)
+            #y lo guardamos en la base de datos project.owner diciendo que es el usuario logueado
+            project.owner=profile
+            project.save()
             return redirect('projects')
     context={
         'form':form
@@ -39,7 +44,11 @@ def createProject(request):
 
 @login_required(login_url='login')
 def updateProject(request,pk):
-    project=Project.objects.get(id=pk)
+    profile=request.user.profile
+    #esto lo hacemos para queel usuario solo pueda editar/eliminar sus proyectos
+    #y no de otros a pesar de sber las url
+    project=profile.project_set.get(id=pk)
+    # project=Project.objects.get(id=pk)
     form = ProjectForm(instance=project)
     if request.method=='POST':
         form=ProjectForm(request.POST,request.FILES,instance=project)
